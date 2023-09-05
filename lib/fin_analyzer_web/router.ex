@@ -24,9 +24,13 @@ defmodule FinAnalyzerWeb.Router do
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", FinAnalyzerWeb do
-  #   pipe_through :api
-  # end
+  scope "/api" do
+    pipe_through :api
+
+    forward "/graphiql", Absinthe.Plug.GraphiQL, schema: FinAnalyzerWeb.Schema
+
+    forward "/", Absinthe.Plug, schema: FinAnalyzerWeb.Schema
+  end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
   if Application.compile_env(:fin_analyzer, :dev_routes) do
