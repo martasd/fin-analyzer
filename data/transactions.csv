@@ -1,0 +1,79 @@
+date,amount,description,category
+2019-01-01,50.00,Bread and milk,groceries
+2019-02-03,1200.00,February Rent,rent
+2019-03-12,45.00,Movie ticket,entertainment
+2019-04-18,78.95,Dining out,entertainment
+2019-05-22,23.75,Cereal and fruits,groceries
+2019-06-06,85.00,Shoe repair,others
+2019-07-19,125.50,Concert ticket,entertainment
+2019-08-28,67.80,Meat and vegetables,groceries
+2019-09-09,18.50,Coffee shop,entertainment
+2019-10-15,60.00,Clothing repair,others
+2019-11-23,50.00,Cheese and wine,groceries
+2019-12-19,1250.00,December Rent,rent
+2020-01-14,70.00,Bowling night,entertainment
+2020-02-10,13.95,Book purchase,others
+2020-03-27,56.80,Fresh fish,groceries
+2020-04-18,29.00,Cinema,entertainment
+2020-05-05,110.75,Weekly groceries,groceries
+2020-06-20,87.00,New lamp,others
+2020-07-08,49.99,Board game,entertainment
+2020-08-25,12.00,Bakery visit,groceries
+2020-09-04,100.00,Gym membership,others
+2020-10-11,15.99,Pizza night,entertainment
+2020-11-28,80.00,Haircut,others
+2020-12-10,220.50,Supermarket,groceries
+2021-01-03,30.00,Zoo visit,entertainment
+2021-02-17,1200.00,February Rent,rent
+2021-03-22,58.50,Toy purchase,others
+2021-04-08,25.00,Breakfast out,entertainment
+2021-05-27,35.00,Flowers,others
+2021-06-13,20.00,Ice cream parlor,entertainment
+2021-07-21,90.50,Grocery shopping,groceries
+2021-08-19,15.00,Coffee with friends,entertainment
+2021-09-09,8.00,Magazine purchase,others
+2021-10-14,65.50,Weekend groceries,groceries
+2021-11-23,45.00,Theater,entertainment
+2021-12-06,10.00,Pastry shop,groceries
+2022-01-25,1200.00,January Rent,rent
+2022-02-03,5.50,Coffee,others
+2022-03-27,40.00,Music concert,entertainment
+2022-04-10,15.50,Fruits,groceries
+2022-05-18,29.99,Video game,entertainment
+2022-06-24,110.75,Weekly groceries,groceries
+2022-07-15,100.00,Shoes,others
+2022-08-20,35.00,Dinner out,entertainment
+2022-09-02,19.99,Valentine's chocolates,groceries
+2022-10-13,1200.00,October Rent,rent
+2022-11-21,25.50,Museum entrance,entertainment
+2022-12-03,50.75,Groceries,groceries
+2023-01-16,60.00,Clothing,others
+2023-02-07,45.00,Movie night,entertainment
+2023-03-26,10.50,Bakery,groceries
+2023-04-04,12.00,Bookstore,others
+2023-05-29,30.00,Amusement park,entertainment
+2023-06-12,90.50,Supermarket,groceries
+2023-07-18,1200.00,July Rent,rent
+2023-08-09,15.00,Street food,entertainment
+2023-08-10,60.00,Pharmacy,others
+2023-08-11,50.00,Music album,entertainment
+2023-08-12,25.75,Organic store,groceries
+2023-08-13,100.00,Gift,others
+2023-08-14,45.00,Cinema,entertainment
+2023-08-15,29.00,Butcher shop,groceries
+2023-08-16,15.50,Coffee date,entertainment
+2023-08-17,50.00,Online shopping,others
+2023-08-18,70.00,Barbecue supplies,groceries
+2023-08-19,25.00,Cocktail night,entertainment
+2023-08-20,35.00,Farmers market,groceries
+2023-08-21,20.00,Movie rental,entertainment
+2023-08-22,100.00,Utilities bill,others
+2023-08-23,15.00,Snack,groceries
+2023-08-24,1200.00,August Rent,rent
+2023-08-25,45.00,Concert,entertainment
+2023-08-26,12.50,Coffee and bagel,entertainment
+2023-08-27,55.00,Clothing store,others
+2023-08-28,25.00,Bakery,groceries
+2023-08-29,70.00,Bar night,entertainment
+2023-08-30,120.00,Shoe store,others
+2023-08-31,15.00,Coffee with friends,entertainment
