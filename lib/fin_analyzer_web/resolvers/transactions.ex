@@ -1,6 +1,8 @@
 defmodule FinAnalyzerWeb.Resolvers.Transactions do
   alias FinAnalyzer.Transactions
 
+  require Logger
+
   def list_transactions(_args, _info) do
     {:ok, Transactions.list_transactions()}
   end
@@ -27,15 +29,21 @@ defmodule FinAnalyzerWeb.Resolvers.Transactions do
               acc + 1
 
             {:error, message} ->
-              IO.puts(message)
+              Logger.error(message)
               acc
           end
 
         {:error, message}, acc ->
-          IO.puts(message)
+          Logger.error(message)
           acc
       end)
 
     {:ok, "sucessfully uploaded #{num_imported} transactions"}
+  end
+
+  def categorize_transaction(args, _info) do
+    with tx <- Transactions.get_transaction!(args.transaction_id) do
+      Transactions.update_transaction(tx, %{category: args.category})
+    end
   end
 end
