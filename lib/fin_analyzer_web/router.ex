@@ -29,7 +29,10 @@ defmodule FinAnalyzerWeb.Router do
 
     forward "/graphiql", Absinthe.Plug.GraphiQL, schema: FinAnalyzerWeb.Schema
 
-    forward "/", Absinthe.Plug, schema: FinAnalyzerWeb.Schema
+    forward "/", Absinthe.Plug,
+      schema: FinAnalyzerWeb.Schema,
+      analyze_complexity: true,
+      max_complexity: 50
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development

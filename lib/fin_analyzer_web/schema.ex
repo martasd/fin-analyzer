@@ -3,6 +3,8 @@ defmodule FinAnalyzerWeb.Schema do
   import_types(FinAnalyzerWeb.Schema.Transactions)
   import_types(Absinthe.Plug.Types)
 
+  alias FinAnalyzerWeb.Middleware.ErrorHandler
+  alias FinAnalyzerWeb.Middleware.SafeResolution
   alias FinAnalyzerWeb.Resolvers
 
   query do
@@ -22,5 +24,13 @@ defmodule FinAnalyzerWeb.Schema do
       arg(:category, non_null(:transaction_category))
       resolve(&Resolvers.Transactions.categorize_transaction/2)
     end
+  end
+
+  def middleware(middleware, _field, %{identifier: type}) when type in [:query, :mutation] do
+    SafeResolution.apply(middleware) ++ [ErrorHandler]
+  end
+
+  def middleware(middleware, _field, _object) do
+    middleware
   end
 end
