@@ -8,6 +8,11 @@ defmodule FinAnalyzerWeb.Schema do
   alias FinAnalyzerWeb.Resolvers
 
   query do
+    field :transaction, :transaction do
+      arg(:id, non_null(:id))
+      resolve(&Resolvers.Transactions.get_transaction/2)
+    end
+
     field :transactions, list_of(:transaction) do
       resolve(&Resolvers.Transactions.list_transactions/2)
     end
@@ -20,7 +25,7 @@ defmodule FinAnalyzerWeb.Schema do
     end
 
     field :categorize_transaction, :transaction do
-      arg(:transaction_id, non_null(:id))
+      arg(:id, non_null(:id))
       arg(:category, non_null(:transaction_category))
       resolve(&Resolvers.Transactions.categorize_transaction/2)
     end

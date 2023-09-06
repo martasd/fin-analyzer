@@ -3,6 +3,16 @@ defmodule FinAnalyzerWeb.Resolvers.Transactions do
 
   require Logger
 
+  def get_transaction(%{id: id}, _info) do
+    {:ok, Transactions.get_transaction!(id)}
+  end
+
+  def categorize_transaction(%{id: id, category: category}, _info) do
+    with tx <- Transactions.get_transaction!(id) do
+      Transactions.update_transaction(tx, %{category: category})
+    end
+  end
+
   def list_transactions(_args, _info) do
     {:ok, Transactions.list_transactions()}
   end
@@ -39,11 +49,5 @@ defmodule FinAnalyzerWeb.Resolvers.Transactions do
       end)
 
     {:ok, "sucessfully uploaded #{num_imported} transactions"}
-  end
-
-  def categorize_transaction(args, _info) do
-    with tx <- Transactions.get_transaction!(args.transaction_id) do
-      Transactions.update_transaction(tx, %{category: args.category})
-    end
   end
 end
