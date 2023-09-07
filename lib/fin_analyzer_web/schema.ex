@@ -1,6 +1,7 @@
 defmodule FinAnalyzerWeb.Schema do
   use Absinthe.Schema
   import_types(FinAnalyzerWeb.Schema.Transactions)
+  import_types(FinAnalyzerWeb.Schema.Analysis)
   import_types(Absinthe.Plug.Types)
 
   alias FinAnalyzerWeb.Middleware.ErrorHandler
@@ -16,14 +17,31 @@ defmodule FinAnalyzerWeb.Schema do
     field :transactions, list_of(:transaction) do
       resolve(&Resolvers.Transactions.list_transactions/2)
     end
+
+    @desc "Average amount spent for all months during which at least one transaction has occurred"
+    field :average_monthly_spending, list_of(:monthly_average) do
+      resolve(&Resolvers.Analysis.average_monthly_spending/2)
+    end
+
+    @desc "Expenses by category"
+    field :expenses_by_category, list_of(:category_expenses) do
+      resolve(&Resolvers.Analysis.expenses_by_category/2)
+    end
+
+    @desc "Largest expenses ordered by amount"
+    field :largest_expenses, list_of(:transaction) do
+      resolve(&Resolvers.Analysis.largest_expenses/2)
+    end
   end
 
   mutation do
+    @desc "Import transactions via CSV file"
     field :upload_transactions, :string do
       arg(:transactions, non_null(:upload))
       resolve(&Resolvers.Transactions.upload_transactions/2)
     end
 
+    @desc "Categorize a transaction"
     field :categorize_transaction, :transaction do
       arg(:id, non_null(:id))
       arg(:category, non_null(:transaction_category))
