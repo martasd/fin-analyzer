@@ -1,5 +1,9 @@
 defmodule FinAnalyzerWeb.Resolvers.Analysis do
+  import Ecto.Query, only: [order_by: 2]
+
   alias FinAnalyzer.Transactions
+  alias FinAnalyzer.Transactions.Transaction
+  alias FinAnalyzer.Repo
 
   @doc """
   Calculate the average amount spent for each month, which had at least one transaction.
@@ -19,10 +23,19 @@ defmodule FinAnalyzerWeb.Resolvers.Analysis do
         end
       end)
 
-    # For each year-month divide total by count
     monthly_averages =
       for {month, {sum, tx_count}} <- monthly_stats, do: %{month: month, average: sum / tx_count}
 
     {:ok, monthly_averages}
+  end
+
+  @doc """
+  Get the user's expenses ordered by their amount.
+  """
+  def largest_expenses(_args, _info) do
+    {:ok,
+     Transaction
+     |> order_by(desc: :amount, desc: :date)
+     |> Repo.all()}
   end
 end
