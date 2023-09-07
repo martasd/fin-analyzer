@@ -23,6 +23,11 @@ defmodule FinAnalyzerWeb.Schema do
       resolve(&Resolvers.Analysis.average_monthly_spending/2)
     end
 
+    @desc "Expenses by category"
+    field :expenses_by_category, list_of(:category_expenses) do
+      resolve(&Resolvers.Analysis.expenses_by_category/2)
+    end
+
     @desc "Largest expenses ordered by amount"
     field :largest_expenses, list_of(:transaction) do
       resolve(&Resolvers.Analysis.largest_expenses/2)

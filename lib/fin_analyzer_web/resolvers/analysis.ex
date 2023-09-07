@@ -30,6 +30,36 @@ defmodule FinAnalyzerWeb.Resolvers.Analysis do
   end
 
   @doc """
+  Get the list of expenses for each category along with its total.
+  """
+  def expenses_by_category(_args, _info) do
+    category_stats =
+      Transactions.list_transactions()
+      |> Enum.reduce(%{}, fn tx, category_stats ->
+        category = tx.category
+
+        case Map.get(category_stats, category) do
+          nil ->
+            Map.put(category_stats, category, {1, tx.amount, [tx]})
+
+          {tx_count, tx_sum, txs} ->
+            Map.replace(category_stats, category, {tx_count + 1, tx_sum + tx.amount, [tx | txs]})
+        end
+      end)
+
+    expenses_by_category =
+      for {category, {tx_count, tx_sum, txs}} <- category_stats,
+          do: %{
+            category: category,
+            transaction_count: tx_count,
+            total_spent: tx_sum,
+            transactions: txs
+          }
+
+    {:ok, expenses_by_category}
+  end
+
+  @doc """
   Get the user's expenses ordered by their amount.
   """
   def largest_expenses(_args, _info) do
