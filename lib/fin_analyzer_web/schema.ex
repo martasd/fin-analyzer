@@ -1,6 +1,7 @@
 defmodule FinAnalyzerWeb.Schema do
   use Absinthe.Schema
   import_types(FinAnalyzerWeb.Schema.Transactions)
+  import_types(FinAnalyzerWeb.Schema.Analysis)
   import_types(Absinthe.Plug.Types)
 
   alias FinAnalyzerWeb.Middleware.ErrorHandler
@@ -15,6 +16,11 @@ defmodule FinAnalyzerWeb.Schema do
 
     field :transactions, list_of(:transaction) do
       resolve(&Resolvers.Transactions.list_transactions/2)
+    end
+
+    @desc "Average amount spent for all months during which at least one transaction has occurred"
+    field :average_monthly_spending, list_of(:monthly_average) do
+      resolve(&Resolvers.Analysis.average_monthly_spending/2)
     end
   end
 
