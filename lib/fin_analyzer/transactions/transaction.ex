@@ -1,6 +1,8 @@
 defmodule FinAnalyzer.Transactions.Transaction do
   use FinAnalyzer.Schema
 
+  alias FinAnalyzer.Accounts.User
+
   schema "transactions" do
     field :amount, :integer
     field :date, :date
@@ -20,13 +22,15 @@ defmodule FinAnalyzer.Transactions.Transaction do
         :others
       ]
 
+    belongs_to :user, User
+
     timestamps()
   end
 
   @doc false
   def changeset(transaction, attrs) do
     transaction
-    |> cast(attrs, [:date, :amount, :description, :category])
-    |> validate_required([:date, :amount, :category])
+    |> cast(attrs, [:date, :amount, :description, :category, :user_id])
+    |> validate_required([:date, :amount, :category, :user_id])
   end
 end

@@ -8,6 +8,17 @@ defmodule FinAnalyzer.Accounts do
 
   alias FinAnalyzer.Accounts.{User, UserToken, UserNotifier}
 
+  @doc """
+  Get currently logged in user from context.
+  """
+  def get_current_user(%{context: %{current_user: %User{} = user}}) do
+    {:ok, user}
+  end
+
+  def get_current_user(_info) do
+    {:error, :not_authenticated}
+  end
+
   ## Database getters
 
   @doc """

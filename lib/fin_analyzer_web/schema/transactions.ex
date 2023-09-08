@@ -1,6 +1,5 @@
 defmodule FinAnalyzerWeb.Schema.Transactions do
   use Absinthe.Schema.Notation
-  import_types(Absinthe.Type.Custom)
 
   enum :transaction_category do
     value(:groceries)

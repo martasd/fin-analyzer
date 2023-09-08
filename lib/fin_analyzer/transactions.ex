@@ -13,12 +13,25 @@ defmodule FinAnalyzer.Transactions do
 
   ## Examples
 
-      iex> list_transactions()
+      iex> list_transactions(user)
       [%Transaction{}, ...]
 
   """
-  def list_transactions do
-    Repo.all(Transaction)
+  def list_transactions(user) do
+    Transaction
+    |> where(user_id: ^user.id)
+    |> order_by(desc: :inserted_at)
+    |> Repo.all()
+  end
+
+  @doc """
+  Returns the list of largest transactions.
+  """
+  def list_largest_transactions(user) do
+    Transaction
+    |> where(user_id: ^user.id)
+    |> order_by(desc: :amount, desc: :date)
+    |> Repo.all()
   end
 
   @doc """
@@ -35,7 +48,11 @@ defmodule FinAnalyzer.Transactions do
       ** (Ecto.NoResultsError)
 
   """
-  def get_transaction!(id), do: Repo.get!(Transaction, id)
+  def get_transaction!(id, user_id) do
+    Transaction
+    |> where(id: ^id, user_id: ^user_id)
+    |> Repo.one!()
+  end
 
   @doc """
   Creates a transaction.
