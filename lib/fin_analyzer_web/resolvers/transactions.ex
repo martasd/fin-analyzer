@@ -1,28 +1,30 @@
 defmodule FinAnalyzerWeb.Resolvers.Transactions do
   alias FinAnalyzer.Accounts
-  alias FinAnalyzer.Accounts.User
   alias FinAnalyzer.Transactions
 
   require Logger
 
-  def get_transaction(%{id: id}, _info) do
-    {:ok, Transactions.get_transaction!(id)}
+  def get_transaction(%{id: id}, info) do
+    with {:ok, user} <- Accounts.get_current_user(info) do
+      {:ok, Transactions.get_transaction!(id, user.id)}
+    end
   end
 
-  def categorize_transaction(%{id: id, category: category}, _info) do
-    with tx <- Transactions.get_transaction!(id) do
+  def categorize_transaction(%{id: id, category: category}, info) do
+    with {:ok, user} <- Accounts.get_current_user(info),
+         tx <- Transactions.get_transaction!(id, user.id) do
       Transactions.update_transaction(tx, %{category: category})
     end
   end
 
   def list_user_transactions(_args, info) do
-    with {:ok, %User{} = user} <- Accounts.get_current_user(info) do
+    with {:ok, user} <- Accounts.get_current_user(info) do
       {:ok, Transactions.list_transactions(user)}
     end
   end
 
   def upload_transactions(args, info) do
-    with {:ok, %User{} = user} <- Accounts.get_current_user(info) do
+    with {:ok, user} <- Accounts.get_current_user(info) do
       num_imported =
         args.transactions.path
         |> File.stream!()

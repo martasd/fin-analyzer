@@ -20,10 +20,6 @@ defmodule FinAnalyzerWeb.Schema do
       resolve(&Resolvers.Transactions.get_transaction/2)
     end
 
-    field :transactions, list_of(:transaction) do
-      resolve(&Resolvers.Transactions.list_transactions/2)
-    end
-
     @desc "Average amount spent for all months during which at least one transaction has occurred"
     field :average_monthly_spending, list_of(:monthly_average) do
       resolve(&Resolvers.Analysis.average_monthly_spending/2)
