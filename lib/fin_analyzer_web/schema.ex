@@ -1,14 +1,20 @@
 defmodule FinAnalyzerWeb.Schema do
   use Absinthe.Schema
-  import_types(FinAnalyzerWeb.Schema.Transactions)
-  import_types(FinAnalyzerWeb.Schema.Analysis)
   import_types(Absinthe.Plug.Types)
+  import_types(Absinthe.Type.Custom)
+  import_types(FinAnalyzerWeb.Schema.Accounts)
+  import_types(FinAnalyzerWeb.Schema.Analysis)
+  import_types(FinAnalyzerWeb.Schema.Transactions)
 
   alias FinAnalyzerWeb.Middleware.ErrorHandler
   alias FinAnalyzerWeb.Middleware.SafeResolution
   alias FinAnalyzerWeb.Resolvers
 
   query do
+    field :me, :user do
+      resolve(&Resolvers.Accounts.get_current_user/2)
+    end
+
     field :transaction, :transaction do
       arg(:id, non_null(:id))
       resolve(&Resolvers.Transactions.get_transaction/2)
