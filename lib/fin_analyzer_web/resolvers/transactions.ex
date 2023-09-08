@@ -1,25 +1,34 @@
 defmodule FinAnalyzerWeb.Resolvers.Transactions do
+  alias Absinthe.Relay.Connection
   alias FinAnalyzer.Accounts
   alias FinAnalyzer.Transactions
 
   require Logger
 
-  def get_transaction(%{id: id}, info) do
-    with {:ok, user} <- Accounts.get_current_user(info) do
-      {:ok, Transactions.get_transaction!(id, user.id)}
+  def get_transaction(%{id: id}) do
+    with tx <- Transactions.get_transaction!(id) do
+      {:ok, tx}
+    end
+  end
+
+  def get_user_transaction(%{id: id}, info) do
+    with {:ok, user} <- Accounts.get_current_user(info),
+         tx <- Transactions.get_user_transaction!(id, user.id) do
+      {:ok, tx}
     end
   end
 
   def categorize_transaction(%{id: id, category: category}, info) do
     with {:ok, user} <- Accounts.get_current_user(info),
-         tx <- Transactions.get_transaction!(id, user.id) do
+         tx <- Transactions.get_user_transaction!(id, user.id) do
       Transactions.update_transaction(tx, %{category: category})
     end
   end
 
-  def list_user_transactions(_args, info) do
+  def list_user_transactions(args, info) do
     with {:ok, user} <- Accounts.get_current_user(info) do
-      {:ok, Transactions.list_transactions(user)}
+      Transactions.list_transactions(user)
+      |> Connection.from_list(args)
     end
   end
 

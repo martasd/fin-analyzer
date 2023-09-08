@@ -34,6 +34,7 @@ defmodule FinAnalyzer.MixProject do
     [
       {:absinthe, "~> 1.7"},
       {:absinthe_plug, "~> 1.5"},
+      {:absinthe_relay, "~> 1.5.0"},
       {:argon2_elixir, "~> 3.0"},
       {:csv, "~> 3.0"},
       {:phoenix, "~> 1.7.2"},

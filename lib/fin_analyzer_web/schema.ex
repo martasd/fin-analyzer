@@ -1,5 +1,7 @@
 defmodule FinAnalyzerWeb.Schema do
   use Absinthe.Schema
+  use Absinthe.Relay.Schema, :modern
+
   import_types(Absinthe.Plug.Types)
   import_types(Absinthe.Type.Custom)
   import_types(FinAnalyzerWeb.Schema.Accounts)
@@ -10,14 +12,41 @@ defmodule FinAnalyzerWeb.Schema do
   alias FinAnalyzerWeb.Middleware.SafeResolution
   alias FinAnalyzerWeb.Resolvers
 
+  node interface do
+    resolve_type(fn
+      %FinAnalyzer.Accounts.User{}, _ ->
+        :user
+
+      %FinAnalyzer.Transactions.Transaction{}, _ ->
+        :transaction
+
+      _, _ ->
+        nil
+    end)
+  end
+
   query do
+    node field do
+      resolve(fn
+        %{type: :user, id: id}, _ ->
+          Resolvers.Accounts.get_user(id)
+
+        %{type: :transaction, id: id}, _ ->
+          Resolvers.Transactions.get_transaction(id)
+      end)
+    end
+
     field :me, :user do
       resolve(&Resolvers.Accounts.get_current_user/2)
     end
 
     field :transaction, :transaction do
       arg(:id, non_null(:id))
-      resolve(&Resolvers.Transactions.get_transaction/2)
+      resolve(&Resolvers.Transactions.get_user_transaction/2)
+    end
+
+    connection field :transactions, node_type: :transaction do
+      resolve(&Resolvers.Transactions.list_user_transactions/2)
     end
 
     @desc "Average amount spent for all months during which at least one transaction has occurred"
@@ -31,7 +60,7 @@ defmodule FinAnalyzerWeb.Schema do
     end
 
     @desc "Largest expenses ordered by amount"
-    field :largest_expenses, list_of(:transaction) do
+    connection field :largest_expenses, node_type: :transaction do
       resolve(&Resolvers.Analysis.largest_expenses/2)
     end
   end

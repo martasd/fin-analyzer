@@ -1,4 +1,5 @@
 defmodule FinAnalyzerWeb.Resolvers.Analysis do
+  alias Absinthe.Relay.Connection
   alias FinAnalyzer.Accounts
   alias FinAnalyzer.Transactions
 
@@ -68,9 +69,10 @@ defmodule FinAnalyzerWeb.Resolvers.Analysis do
   @doc """
   Get the user's expenses ordered by their amount.
   """
-  def largest_expenses(_args, info) do
+  def largest_expenses(args, info) do
     with {:ok, user} <- Accounts.get_current_user(info) do
-      {:ok, Transactions.list_largest_transactions(user)}
+      Transactions.list_largest_transactions(user)
+      |> Connection.from_list(args)
     end
   end
 end
