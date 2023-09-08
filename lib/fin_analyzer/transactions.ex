@@ -13,12 +13,15 @@ defmodule FinAnalyzer.Transactions do
 
   ## Examples
 
-      iex> list_transactions()
+      iex> list_transactions(user)
       [%Transaction{}, ...]
 
   """
-  def list_transactions do
-    Repo.all(Transaction)
+  def list_transactions(user) do
+    Transaction
+    |> where(user_id: ^user.id)
+    |> order_by(desc: :inserted_at)
+    |> Repo.all()
   end
 
   @doc """
