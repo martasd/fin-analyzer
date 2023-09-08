@@ -48,7 +48,12 @@ defmodule FinAnalyzer.Transactions do
       ** (Ecto.NoResultsError)
 
   """
-  def get_transaction!(id, user_id) do
+  def get_transaction!(id), do: Repo.get!(Transaction, id)
+
+  @doc """
+  Gets a single transaction from user given a transaction id.
+  """
+  def get_user_transaction!(id, user_id) do
     Transaction
     |> where(id: ^id, user_id: ^user_id)
     |> Repo.one!()

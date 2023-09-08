@@ -1,5 +1,6 @@
 defmodule FinAnalyzerWeb.Schema.Transactions do
   use Absinthe.Schema.Notation
+  use Absinthe.Relay.Schema.Notation, :modern
 
   enum :transaction_category do
     value(:groceries)
@@ -21,4 +22,6 @@ defmodule FinAnalyzerWeb.Schema.Transactions do
     field :description, :string
     field :category, :transaction_category
   end
+
+  connection(node_type: :transaction)
 end
