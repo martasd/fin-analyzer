@@ -36,6 +36,12 @@ defmodule FinAnalyzerWeb.Schema do
       end)
     end
 
+    @desc "Get auth token for user"
+    field :get_user_token, :string do
+      arg(:email, non_null(:string))
+      resolve(&Resolvers.Accounts.get_user_token/2)
+    end
+
     field :me, :user do
       resolve(&Resolvers.Accounts.get_current_user/2)
     end
@@ -66,6 +72,13 @@ defmodule FinAnalyzerWeb.Schema do
   end
 
   mutation do
+    @desc "Register a new user"
+    field :register_user, :user do
+      arg(:email, non_null(:string))
+      arg(:password, non_null(:string))
+      resolve(&Resolvers.Accounts.register_user/2)
+    end
+
     @desc "Import transactions via CSV file"
     field :upload_transactions, :string do
       arg(:transactions, non_null(:upload))
