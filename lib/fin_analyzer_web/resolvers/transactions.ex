@@ -27,7 +27,7 @@ defmodule FinAnalyzerWeb.Resolvers.Transactions do
 
   def list_user_transactions(args, info) do
     with {:ok, user} <- Accounts.get_current_user(info) do
-      Transactions.list_transactions(user)
+      Transactions.list_transactions(user, args)
       |> Connection.from_list(args)
     end
   end

@@ -36,7 +36,6 @@ defmodule FinAnalyzerWeb.Schema do
       end)
     end
 
-    @desc "Get auth token for user"
     field :get_user_token, :string do
       arg(:email, non_null(:string))
       resolve(&Resolvers.Accounts.get_user_token/2)
@@ -52,16 +51,19 @@ defmodule FinAnalyzerWeb.Schema do
     end
 
     connection field :transactions, node_type: :transaction do
+      arg(:category, :transaction_category)
       resolve(&Resolvers.Transactions.list_user_transactions/2)
     end
 
     @desc "Average amount spent for all months during which at least one transaction has occurred"
-    field :average_monthly_spending, list_of(:monthly_average) do
+    connection field :average_monthly_spending, node_type: :monthly_average do
+      arg(:category, :transaction_category)
       resolve(&Resolvers.Analysis.average_monthly_spending/2)
     end
 
     @desc "Expenses by category"
-    field :expenses_by_category, list_of(:category_expenses) do
+    connection field :expenses_by_category, node_type: :category_expenses do
+      arg(:category, :transaction_category)
       resolve(&Resolvers.Analysis.expenses_by_category/2)
     end
 

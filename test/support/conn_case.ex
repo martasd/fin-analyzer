@@ -46,7 +46,17 @@ defmodule FinAnalyzerWeb.ConnCase do
   """
   def register_and_log_in_user(%{conn: conn}) do
     user = FinAnalyzer.AccountsFixtures.user_fixture()
-    %{conn: log_in_user(conn, user), user: user}
+
+    token =
+      FinAnalyzer.Accounts.generate_user_session_token(user)
+      |> Base.url_encode64(padding: false)
+
+    conn =
+      conn
+      |> Plug.Conn.put_req_header("content-type", "application/graphql")
+      |> Plug.Conn.put_req_header("authorization", token)
+
+    {:ok, user: user, conn: conn}
   end
 
   @doc """

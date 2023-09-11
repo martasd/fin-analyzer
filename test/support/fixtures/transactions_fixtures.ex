@@ -7,14 +7,15 @@ defmodule FinAnalyzer.TransactionsFixtures do
   @doc """
   Generate a transaction.
   """
-  def transaction_fixture(attrs \\ %{}) do
+  def transaction_fixture(user, attrs \\ %{}) do
     {:ok, transaction} =
       attrs
       |> Enum.into(%{
         date: ~D[2023-09-03],
         description: "some description",
         category: :groceries,
-        amount: 42
+        amount: 42,
+        user_id: user.id
       })
       |> FinAnalyzer.Transactions.create_transaction()
 

@@ -15,8 +15,6 @@ defmodule FinAnalyzerWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
-    plug :fetch_session
-    plug :fetch_current_user
     plug FinAnalyzerWeb.Context
   end
 
@@ -31,11 +29,7 @@ defmodule FinAnalyzerWeb.Router do
     pipe_through :api
 
     forward "/graphiql", Absinthe.Plug.GraphiQL, schema: FinAnalyzerWeb.Schema
-
-    forward "/", Absinthe.Plug,
-      schema: FinAnalyzerWeb.Schema,
-      analyze_complexity: true,
-      max_complexity: 50
+    forward "/", Absinthe.Plug, schema: FinAnalyzerWeb.Schema
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
