@@ -17,11 +17,11 @@ defmodule FinAnalyzer.Transactions do
       [%Transaction{}, ...]
 
   """
-  def list_transactions(user, filters) do
+  def list_transactions(user, filters \\ %{}) do
     Transaction
     |> where(user_id: ^user.id)
     |> filter_by_category(filters[:category])
-    |> order_by(desc: :inserted_at)
+    |> order_by(desc: :date, desc: :amount)
     |> Repo.all()
   end
 

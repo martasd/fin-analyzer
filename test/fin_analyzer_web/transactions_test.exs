@@ -53,10 +53,10 @@ defmodule FinAnalyzerWeb.TransactionsTest do
                      "edges" => [
                        %{
                          "node" => %{
-                           "amount" => 5000,
-                           "category" => "GROCERIES",
-                           "date" => "2019-01-01",
-                           "description" => "Bread and milk"
+                           "amount" => 4500,
+                           "category" => "ENTERTAINMENT",
+                           "date" => "2019-03-12",
+                           "description" => "Movie ticket"
                          }
                        },
                        %{
@@ -69,10 +69,10 @@ defmodule FinAnalyzerWeb.TransactionsTest do
                        },
                        %{
                          "node" => %{
-                           "amount" => 4500,
-                           "category" => "ENTERTAINMENT",
-                           "date" => "2019-03-12",
-                           "description" => "Movie ticket"
+                           "amount" => 5000,
+                           "category" => "GROCERIES",
+                           "date" => "2019-01-01",
+                           "description" => "Bread and milk"
                          }
                        }
                      ]
@@ -142,23 +142,16 @@ defmodule FinAnalyzerWeb.TransactionsTest do
                      "edges" => [
                        %{
                          "node" => %{
-                           "amount" => 100,
-                           "category" => "SPORTS",
-                           "date" => "2021-05-01"
+                           "amount" => 300,
+                           "category" => "EDUCATION",
+                           "date" => "2023-08-02"
                          }
                        },
                        %{
                          "node" => %{
-                           "amount" => 150,
-                           "category" => "GROCERIES",
-                           "date" => "2022-07-01"
-                         }
-                       },
-                       %{
-                         "node" => %{
-                           "amount" => 250,
-                           "category" => "GROCERIES",
-                           "date" => "2022-09-03"
+                           "amount" => 200,
+                           "category" => "EDUCATION",
+                           "date" => "2023-03-02"
                          }
                        },
                        %{
@@ -166,6 +159,13 @@ defmodule FinAnalyzerWeb.TransactionsTest do
                            "amount" => 100,
                            "category" => "EDUCATION",
                            "date" => "2023-03-01"
+                         }
+                       },
+                       %{
+                         "node" => %{
+                           "amount" => 250,
+                           "category" => "GROCERIES",
+                           "date" => "2022-09-03"
                          }
                        }
                      ]

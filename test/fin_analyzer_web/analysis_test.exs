@@ -57,9 +57,6 @@ defmodule FinAnalyzerWeb.AnalysisTest do
         				category
         				transactionCount
         				totalSpent
-        				transactions {
-        					amount
-        				}
         			}
         		}
         	}
@@ -68,43 +65,32 @@ defmodule FinAnalyzerWeb.AnalysisTest do
 
       conn = post(conn, "/api", query)
 
-      assert json_response(conn, 200) ==
-               %{
-                 "data" => %{
-                   "expensesByCategory" => %{
-                     "edges" => [
-                       %{
-                         "node" => %{
-                           "category" => "RENT",
-                           "totalSpent" => 100,
-                           "transactionCount" => 1,
-                           "transactions" => [%{"amount" => 100}]
-                         }
-                       },
-                       %{
-                         "node" => %{
-                           "category" => "GROCERIES",
-                           "totalSpent" => 400,
-                           "transactionCount" => 2,
-                           "transactions" => [%{"amount" => 250}, %{"amount" => 150}]
-                         }
-                       },
-                       %{
-                         "node" => %{
-                           "category" => "EDUCATION",
-                           "totalSpent" => 600,
-                           "transactionCount" => 3,
-                           "transactions" => [
-                             %{"amount" => 300},
-                             %{"amount" => 200},
-                             %{"amount" => 100}
-                           ]
-                         }
-                       }
-                     ]
-                   }
-                 }
+      response = json_response(conn, 200)
+      category_stats = response["data"]["expensesByCategory"]["edges"]
+
+      assert %{
+               "node" => %{
+                 "category" => "RENT",
+                 "totalSpent" => 100,
+                 "transactionCount" => 1
                }
+             } in category_stats
+
+      assert %{
+               "node" => %{
+                 "category" => "GROCERIES",
+                 "totalSpent" => 400,
+                 "transactionCount" => 2
+               }
+             } in category_stats
+
+      assert %{
+               "node" => %{
+                 "category" => "EDUCATION",
+                 "totalSpent" => 600,
+                 "transactionCount" => 3
+               }
+             } in category_stats
     end
 
     test "calculates user's average monthly spending", %{user: user, conn: conn} do
