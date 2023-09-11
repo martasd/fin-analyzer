@@ -13,15 +13,22 @@ defmodule FinAnalyzer.Transactions do
 
   ## Examples
 
-      iex> list_transactions(user)
+      iex> list_transactions(user, filters)
       [%Transaction{}, ...]
 
   """
-  def list_transactions(user) do
+  def list_transactions(user, filters) do
     Transaction
     |> where(user_id: ^user.id)
+    |> filter_by_category(filters[:category])
     |> order_by(desc: :inserted_at)
     |> Repo.all()
+  end
+
+  defp filter_by_category(query, nil), do: query
+
+  defp filter_by_category(query, category) do
+    query |> where(category: ^category)
   end
 
   @doc """

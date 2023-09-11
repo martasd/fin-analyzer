@@ -6,10 +6,10 @@ defmodule FinAnalyzerWeb.Resolvers.Analysis do
   @doc """
   Calculate the average amount spent for each month, which had at least one transaction.
   """
-  def average_monthly_spending(_args, info) do
+  def average_monthly_spending(args, info) do
     with {:ok, user} <- Accounts.get_current_user(info) do
       monthly_stats =
-        Transactions.list_transactions(user)
+        Transactions.list_transactions(user, args)
         |> Enum.reduce(%{}, fn tx, monthly_stats ->
           month = "#{tx.date.year}-#{tx.date.month}"
 
@@ -26,17 +26,17 @@ defmodule FinAnalyzerWeb.Resolvers.Analysis do
         for {month, {sum, tx_count}} <- monthly_stats,
             do: %{month: month, average: sum / tx_count}
 
-      {:ok, monthly_averages}
+      Connection.from_list(monthly_averages, args)
     end
   end
 
   @doc """
   Get the list of expenses for each category along with its total.
   """
-  def expenses_by_category(_args, info) do
+  def expenses_by_category(args, info) do
     with {:ok, user} <- Accounts.get_current_user(info) do
       category_stats =
-        Transactions.list_transactions(user)
+        Transactions.list_transactions(user, args)
         |> Enum.reduce(%{}, fn tx, category_stats ->
           category = tx.category
 
@@ -62,7 +62,7 @@ defmodule FinAnalyzerWeb.Resolvers.Analysis do
               transactions: txs
             }
 
-      {:ok, expenses_by_category}
+      Connection.from_list(expenses_by_category, args)
     end
   end
 
