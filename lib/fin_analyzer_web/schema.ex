@@ -36,15 +36,18 @@ defmodule FinAnalyzerWeb.Schema do
       end)
     end
 
+    @desc "Get current user details"
     field :me, :user do
       resolve(&Resolvers.Accounts.get_current_user/2)
     end
 
+    @desc "Get transaction details"
     field :transaction, :transaction do
       arg(:id, non_null(:id))
       resolve(&Resolvers.Transactions.get_user_transaction/2)
     end
 
+    @desc "Get user transactions"
     connection field :transactions, node_type: :transaction do
       arg(:category, :transaction_category)
       resolve(&Resolvers.Transactions.list_user_transactions/2)
@@ -56,7 +59,7 @@ defmodule FinAnalyzerWeb.Schema do
       resolve(&Resolvers.Analysis.average_monthly_spending/2)
     end
 
-    @desc "Expenses by category"
+    @desc "Expenses by category along with some category statistics"
     connection field :expenses_by_category, node_type: :category_expenses do
       arg(:category, :transaction_category)
       resolve(&Resolvers.Analysis.expenses_by_category/2)

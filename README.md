@@ -7,26 +7,26 @@ upload financial transaction data in CSV format and provides insights and statis
 
 Assuming Erlang, Elixir, and Postgres are installed, clone the repo and enter its directory.
 
-* Install and compile dependencies
+* Install and compile dependencies:
 
 ```elixir
 mix deps.get
 mix deps.compile
 ```
 
-* Create the database
+* Create the database:
 
 ```elixir
 mix ecto.create
 ```
 
-* Run migrations
+* Run migrations:
 
 ```elixir
 mix ecto.migrate
 ```
 
-* Run the Phoenix server
+* Run the Phoenix server:
 
 ```elixir
 mix phx.server
@@ -180,6 +180,23 @@ expensesByCategory(first: 3, category: GROCERIES)
 *NOTE:* All GraphQL queries and mutations can be imported into Insomnia client using `insomnia_graphql_collection.json`
 export file, which is included in this repo.
 
+## Testing
+
+`phx.gen.auth` generated tests for the `Accounts` context. Creating `Transactions` context then generated tests for
+its context. I've added HTTP tests for those queries and mutations that I implemented for transactions and analysis API:
+
+To execute all tests:
+
+```elixir
+mix test
+```
+
+To execute only HTTP tests for GraphQL API:
+
+```elixir
+mix test test/fin_analyzer_web/schema
+```
+
 ## Design
 
 The task assignment clearly described the functionality to be implemented. The queries and mutations followed naturally
@@ -191,5 +208,7 @@ results. This offers more flexibility to the API consumer for navigating query r
 ## Challenges
 
 I found that the biggest challenge was to figure out the user authentication for the GraphQL API. Authentication does
-come out of the box with Phoenix with `mix phx.gen.auth`. It took some time to figure out how to properly hook into it
-to fetch the current user for Absinthe API calls.
+come out of the box with Phoenix with `mix phx.gen.auth`. It took some time, however, to figure out how to properly hook into it
+to fetch the current user for Absinthe API calls. As I focused solely on GraphQL API and have not implemented any UI, I did
+not make use of user sessions provided. I opted for the most straightforward solution by relying on `UserToken` for
+authenticating GraphQL requests.
