@@ -54,7 +54,7 @@ and login by generating a token:
 
 ```graphql
 query {
-  getUserToken(email: "martin@profiq.com")
+  getUserToken(email: "martin@profiq.com", password:"super-secret")
 }
 ```
 
