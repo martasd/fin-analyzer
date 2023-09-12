@@ -92,7 +92,7 @@ defmodule FinAnalyzerWeb.Schema do
     end
 
     @desc "Import transactions via CSV file"
-    field :upload_transactions, :string do
+    field :upload_transactions, :upload_result do
       arg(:transactions, non_null(:upload))
       resolve(&Resolvers.Transactions.upload_transactions/2)
     end

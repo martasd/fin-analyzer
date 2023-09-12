@@ -204,6 +204,33 @@ from the description. One design decision was to sort retrieved transactions by 
 which makes the queries' outcomes deterministic. One useful enhancement is to use Absinthe with Relay to allow for paginating
 results. This offers more flexibility to the API consumer for navigating query responses.
 
+In the transaction import via CSV, I implemented best-effort import. Thus, rows which contain
+valid data get imported while rows with invalid data are reported in errors as in the following example:
+
+```json
+{
+    "data": {
+        "uploadTransactions": {
+            "errors": [
+                {
+                    "row": 2,
+                    "validation": [
+                        "Date can't be blank",
+                        "Amount can't be blank"
+                    ]
+                },
+                {
+                    "row": 3,
+                    "validation": [
+                        "Category can't be blank"
+                    ]
+                }
+            ],
+            "result": "sucessfully uploaded 76 transactions"
+        }
+    }
+}
+```
 
 ## Challenges
 
