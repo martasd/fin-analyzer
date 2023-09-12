@@ -29,6 +29,17 @@ defmodule FinAnalyzerWeb.Resolvers.Accounts do
     end
   end
 
+  def delete_user_token(_args, info) do
+    with {:ok, user} <- Accounts.get_current_user(info),
+         %UserToken{token: token} <-
+           UserToken.user_and_contexts_query(user, ["session"]) |> Repo.one(),
+         :ok <- Accounts.delete_user_session_token(token) do
+      {:ok, "User #{user.email} has been logged out."}
+    else
+      error -> error
+    end
+  end
+
   def get_current_user(_args, info) do
     Accounts.get_current_user(info)
   end

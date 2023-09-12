@@ -36,12 +36,6 @@ defmodule FinAnalyzerWeb.Schema do
       end)
     end
 
-    field :log_in, :user_token do
-      arg(:email, non_null(:string))
-      arg(:password, non_null(:string))
-      resolve(&Resolvers.Accounts.get_user_token/2)
-    end
-
     field :me, :user do
       resolve(&Resolvers.Accounts.get_current_user/2)
     end
@@ -80,6 +74,18 @@ defmodule FinAnalyzerWeb.Schema do
       arg(:email, non_null(:string))
       arg(:password, non_null(:string))
       resolve(&Resolvers.Accounts.register_user/2)
+    end
+
+    @desc "Log in by creating or fetching a user token"
+    field :log_in, :user_token do
+      arg(:email, non_null(:string))
+      arg(:password, non_null(:string))
+      resolve(&Resolvers.Accounts.get_user_token/2)
+    end
+
+    @desc "Log out by deleting the user token"
+    field :log_out, :string do
+      resolve(&Resolvers.Accounts.delete_user_token/2)
     end
 
     @desc "Import transactions via CSV file"

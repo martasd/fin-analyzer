@@ -53,23 +53,27 @@ mutation {
 and log in by generating a token:
 
 ```graphql
-query {
+mutation {
   logIn(email: "martin@profiq.com", password:"super-secret") {
-		token
-		context
-		user {
-			email
-		}
-	}
+    token
+  }
 }
 ```
 
 Once we have a user token, we can use it to authenticate transaction queries by including it as the value of the `Authorization` header.
 
+When we are done, we can log out which deletes the user token:
+
+```graphql
+mutation {
+  logOut
+}
+```
 
 ### Create, show, and categorize transactions
 
-To upload transactions stored in a sample CSV file, execute the following mutation:
+When in possession of the auth token, execute the following mutation to upload
+transactions stored in a sample CSV file `data/transaction.csv`:
 
 ```bash
 curl -X POST \
@@ -188,4 +192,4 @@ results. This offers more flexibility to the API consumer for navigating query r
 
 I found that the biggest challenge was to figure out the user authentication for the GraphQL API. Authentication does
 come out of the box with Phoenix with `mix phx.gen.auth`. It took some time to figure out how to properly hook into it
-to fetch the current user for Abisnthe API calls.
+to fetch the current user for Absinthe API calls.
