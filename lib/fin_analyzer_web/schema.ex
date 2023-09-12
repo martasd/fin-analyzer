@@ -38,6 +38,7 @@ defmodule FinAnalyzerWeb.Schema do
 
     field :get_user_token, :string do
       arg(:email, non_null(:string))
+      arg(:password, non_null(:string))
       resolve(&Resolvers.Accounts.get_user_token/2)
     end
 

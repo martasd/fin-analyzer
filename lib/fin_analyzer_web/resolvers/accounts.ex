@@ -1,5 +1,6 @@
 defmodule FinAnalyzerWeb.Resolvers.Accounts do
   alias FinAnalyzer.Accounts
+  alias FinAnalyzer.Accounts.User
   alias FinAnalyzer.Accounts.UserToken
   alias FinAnalyzer.Repo
 
@@ -7,8 +8,10 @@ defmodule FinAnalyzerWeb.Resolvers.Accounts do
     Accounts.register_user(args)
   end
 
-  def get_user_token(%{email: email}, _info) do
-    with user <- Accounts.get_user_by_email(email) do
+  def get_user_token(%{email: email, password: password}, _info) do
+    with %User{} = user <- Accounts.get_user_by_email_and_password(email, password) do
+      IO.inspect(user)
+
       token =
         case(Accounts.UserToken.user_and_contexts_query(user, ["session"]) |> Repo.one()) do
           nil ->
@@ -20,6 +23,8 @@ defmodule FinAnalyzerWeb.Resolvers.Accounts do
         |> Base.url_encode64(padding: false)
 
       {:ok, token}
+    else
+      _ -> {:error, :invalid_email_or_password}
     end
   end
 
