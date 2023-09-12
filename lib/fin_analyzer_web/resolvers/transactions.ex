@@ -40,23 +40,28 @@ defmodule FinAnalyzerWeb.Resolvers.Transactions do
         |> CSV.decode(headers: true)
         |> Enum.reduce(0, fn
           {:ok, parsed_fields}, acc ->
-            amount = parsed_fields["amount"] |> String.replace(".", "")
-            date = parsed_fields["date"]
-            description = parsed_fields["description"]
-            category = parsed_fields["category"]
+            amount = parsed_fields["amount"]
+            amount = if amount, do: String.replace(amount, ".", "")
 
             case Transactions.create_transaction(%{
                    amount: amount,
-                   date: date,
-                   description: description,
-                   category: category,
+                   date: parsed_fields["date"],
+                   description: parsed_fields["description"],
+                   category: parsed_fields["category"],
                    user_id: user.id
                  }) do
               {:ok, _transaction} ->
                 acc + 1
 
-              {:error, message} ->
-                Logger.error(message)
+              {:error, %Ecto.Changeset{changes: changes} = changeset} ->
+                errors =
+                  Ecto.Changeset.traverse_errors(changeset, fn {msg, opts} ->
+                    Regex.replace(~r"%{(\w+)}", msg, fn _, key ->
+                      opts |> Keyword.get(String.to_existing_atom(key), key) |> to_string()
+                    end)
+                  end)
+
+                Logger.error(%{line: acc + 2, transaction: changes, errors: errors})
                 acc
             end
 
