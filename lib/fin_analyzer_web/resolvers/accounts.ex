@@ -12,17 +12,18 @@ defmodule FinAnalyzerWeb.Resolvers.Accounts do
     with %User{} = user <- Accounts.get_user_by_email_and_password(email, password) do
       IO.inspect(user)
 
-      token =
+      %UserToken{token: binary_token, context: context} =
         case(Accounts.UserToken.user_and_contexts_query(user, ["session"]) |> Repo.one()) do
           nil ->
-            Accounts.generate_user_session_token(user)
+            Accounts.generate_and_get_user_session_token(user)
 
-          %UserToken{token: token} ->
+          %UserToken{} = token ->
             token
         end
-        |> Base.url_encode64(padding: false)
 
-      {:ok, token}
+      token = Base.url_encode64(binary_token, padding: false)
+
+      {:ok, %{token: token, context: context, user: user}}
     else
       _ -> {:error, :invalid_email_or_password}
     end

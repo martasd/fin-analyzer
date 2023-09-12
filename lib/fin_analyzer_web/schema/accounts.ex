@@ -6,4 +6,10 @@ defmodule FinAnalyzerWeb.Schema.Accounts do
     field :email, :string
     field :confirmed_at, :naive_datetime
   end
+
+  object :user_token do
+    field :token, :string
+    field :context, :string
+    field :user, :user
+  end
 end

@@ -50,11 +50,17 @@ mutation {
   }
 }
 ```
-and login by generating a token:
+and log in by generating a token:
 
 ```graphql
 query {
-  getUserToken(email: "martin@profiq.com", password:"super-secret")
+  logIn(email: "martin@profiq.com", password:"super-secret") {
+		token
+		context
+		user {
+			email
+		}
+	}
 }
 ```
 

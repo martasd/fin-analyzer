@@ -238,6 +238,15 @@ defmodule FinAnalyzer.Accounts do
   end
 
   @doc """
+  Generates and retrieves a session token.
+  """
+  def generate_and_get_user_session_token(user) do
+    {_token, user_token} = UserToken.build_session_token(user)
+    Repo.insert!(user_token)
+    user_token
+  end
+
+  @doc """
   Gets the user with the given signed token.
   """
   def get_user_by_session_token(token) do
