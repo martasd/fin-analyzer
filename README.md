@@ -209,26 +209,26 @@ valid data get imported while rows with invalid data are reported in errors as i
 
 ```json
 {
-    "data": {
-        "uploadTransactions": {
-            "errors": [
-                {
-                    "row": 2,
-                    "validation": [
-                        "Date can't be blank",
-                        "Amount can't be blank"
-                    ]
-                },
-                {
-                    "row": 3,
-                    "validation": [
-                        "Category can't be blank"
-                    ]
-                }
-            ],
-            "result": "sucessfully uploaded 76 transactions"
+  "data": {
+    "uploadTransactions": {
+      "errors": [
+        {
+          "row": 2,
+          "validation": [
+            "Date can't be blank",
+            "Amount can't be blank"
+          ]
+        },
+        {
+          "row": 3,
+          "validation": [
+            "Category can't be blank"
+          ]
         }
+      ],
+      "result": "sucessfully uploaded 76 transactions"
     }
+  }
 }
 ```
 
