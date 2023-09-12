@@ -24,4 +24,14 @@ defmodule FinAnalyzerWeb.Schema.Transactions do
   end
 
   connection(node_type: :transaction)
+
+  object :upload_errors do
+    field :row, :integer
+    field :validation, list_of(:string)
+  end
+
+  object :upload_result do
+    field :result, :string
+    field :errors, list_of(:upload_errors)
+  end
 end

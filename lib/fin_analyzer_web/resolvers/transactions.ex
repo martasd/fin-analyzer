@@ -34,12 +34,12 @@ defmodule FinAnalyzerWeb.Resolvers.Transactions do
 
   def upload_transactions(args, info) do
     with {:ok, user} <- Accounts.get_current_user(info) do
-      num_imported =
+      {num_imported, _, all_errors} =
         args.transactions.path
         |> File.stream!()
-        |> CSV.decode(headers: true)
-        |> Enum.reduce(0, fn
-          {:ok, parsed_fields}, acc ->
+        |> CSV.decode(headers: true, validate_row_length: true)
+        |> Enum.reduce({0, 2, %{}}, fn
+          {:ok, parsed_fields}, {imported, row, errors} ->
             amount = parsed_fields["amount"]
             amount = if amount, do: String.replace(amount, ".", "")
 
@@ -51,26 +51,30 @@ defmodule FinAnalyzerWeb.Resolvers.Transactions do
                    user_id: user.id
                  }) do
               {:ok, _transaction} ->
-                acc + 1
+                {imported + 1, row + 1, errors}
 
-              {:error, %Ecto.Changeset{changes: changes} = changeset} ->
-                errors =
-                  Ecto.Changeset.traverse_errors(changeset, fn {msg, opts} ->
-                    Regex.replace(~r"%{(\w+)}", msg, fn _, key ->
-                      opts |> Keyword.get(String.to_existing_atom(key), key) |> to_string()
-                    end)
-                  end)
+              {:error, %Ecto.Changeset{} = changeset} ->
+                validation_errors =
+                  changeset
+                  |> Ecto.Changeset.traverse_errors(fn {err, _opts} -> err end)
+                  |> Enum.map(fn {k, v} -> String.capitalize("#{k} #{v}") end)
 
-                Logger.error(%{line: acc + 2, transaction: changes, errors: errors})
-                acc
+                {imported, row + 1, Map.put(errors, row, validation_errors)}
             end
 
-          {:error, message}, acc ->
-            Logger.error(message)
-            acc
+          {:error, message}, {imported, row, errors} ->
+            {imported, row + 1, Map.put(errors, row, message)}
         end)
 
-      {:ok, "sucessfully uploaded #{num_imported} transactions"}
+      annotated_errors =
+        for {row, field_validation_errors} <- all_errors,
+            do: %{
+              row: row,
+              validation: field_validation_errors
+            }
+
+      {:ok,
+       %{result: "sucessfully uploaded #{num_imported} transactions", errors: annotated_errors}}
     end
   end
 end
