@@ -14,6 +14,16 @@ mix deps.get
 mix deps.compile
 ```
 
+* Configure the database:
+
+The default dev database options are configured in `config/dev.exs`
+
+```elixir
+config :fin_analyzer, FinAnalyzer.Repo
+```
+
+Set the username, password, or database name according to your preference.
+
 * Create the database:
 
 ```elixir
