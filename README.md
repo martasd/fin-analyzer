@@ -187,8 +187,8 @@ If we are interested only in a specific category, we can use a filter like this:
 expensesByCategory(first: 3, category: GROCERIES)
 ```
 
-*NOTE:* All GraphQL queries and mutations can be imported into Insomnia client using `insomnia_graphql_collection.json`
-export file, which is included in this repo.
+**NOTE:** All GraphQL queries and mutations can be imported into Insomnia client using `insomnia_export.json`
+file, which is included in this repo.
 
 ## Testing
 
