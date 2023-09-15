@@ -44,26 +44,28 @@ defmodule FinAnalyzer.Transactions do
   @doc """
   Gets a single transaction.
 
-  Raises `Ecto.NoResultsError` if the Transaction does not exist.
+  Returns `nil` if the Transaction does not exist.
 
   ## Examples
 
-      iex> get_transaction!(123)
+      iex> get_transaction(123)
       %Transaction{}
 
-      iex> get_transaction!(456)
-      ** (Ecto.NoResultsError)
+      iex> get_transaction(456)
+      nil
 
   """
-  def get_transaction!(id), do: Repo.get!(Transaction, id)
+  def get_transaction(id), do: Repo.get(Transaction, id)
 
   @doc """
   Gets a single transaction from user given a transaction id.
+
+  Returns `nil` if the Transaction does not exist.
   """
-  def get_user_transaction!(id, user_id) do
+  def get_user_transaction(id, user_id) do
     Transaction
     |> where(id: ^id, user_id: ^user_id)
-    |> Repo.one!()
+    |> Repo.one()
   end
 
   @doc """
