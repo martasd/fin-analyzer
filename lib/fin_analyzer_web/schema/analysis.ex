@@ -7,14 +7,14 @@ defmodule FinAnalyzerWeb.Schema.Analysis do
     field :average, :float
   end
 
-  connection(node_type: :monthly_average)
+  object(:category_stats) do
+    field :total_spent, :integer
+    field :transaction_count, :integer
+  end
 
   object(:category_expenses) do
     field :category, :transaction_category
-    field :transaction_count, :integer
     field :total_spent, :integer
-    field :transactions, list_of(:transaction)
+    field :transaction_count, :integer
   end
-
-  connection(node_type: :category_expenses)
 end

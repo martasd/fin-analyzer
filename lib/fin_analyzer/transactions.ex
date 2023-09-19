@@ -31,6 +31,33 @@ defmodule FinAnalyzer.Transactions do
     query |> where(category: ^category)
   end
 
+  def average_monthly_spending(user_id) do
+    query = """
+      SELECT extract(YEAR from date), extract(MONTH from date), avg(amount)
+      FROM transactions where user_id = $1
+      GROUP BY 1, 2
+      ORDER BY 1, 2
+    """
+
+    Repo.query(query, [user_id])
+  end
+
+  def total_spent_for_category(user_id, category) do
+    transactions_in_category(user_id, category)
+    |> Repo.aggregate(:sum, :amount)
+  end
+
+  def transaction_count_for_category(user_id, category) do
+    transactions_in_category(user_id, category)
+    |> Repo.aggregate(:count)
+  end
+
+  defp transactions_in_category(user_id, category) do
+    Transaction
+    |> where(user_id: ^user_id)
+    |> where(category: ^category)
+  end
+
   @doc """
   Returns the list of largest transactions.
   """
