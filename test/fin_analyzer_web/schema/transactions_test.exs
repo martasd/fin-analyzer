@@ -14,7 +14,13 @@ defmodule FinAnalyzerWeb.TransactionsTest do
 
       query = """
       mutation ($transactions_csv: Upload!) {
-      	uploadTransactions(transactions: $transactions_csv)
+      	uploadTransactions(transactions: $transactions_csv) {
+          errors {
+            row
+            validation
+          }
+          result
+        }
       }
       """
 
@@ -26,7 +32,12 @@ defmodule FinAnalyzerWeb.TransactionsTest do
         )
 
       assert json_response(conn, 200) == %{
-               "data" => %{"uploadTransactions" => "sucessfully uploaded 3 transactions"}
+               "data" => %{
+                 "uploadTransactions" => %{
+                   "errors" => [],
+                   "result" => "sucessfully uploaded 3 transactions"
+                 }
+               }
              }
 
       query = """

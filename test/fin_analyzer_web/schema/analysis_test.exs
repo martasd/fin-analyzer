@@ -51,45 +51,23 @@ defmodule FinAnalyzerWeb.AnalysisTest do
 
       query = """
         query {
-        	expensesByCategory(first: 3) {
-        		edges {
-        			node {
-        				category
-        				transactionCount
-        				totalSpent
-        			}
-        		}
-        	}
-        }
+      categoryStats(category: EDUCATION) {
+      category
+      totalSpent
+      transactionCount
+      }
+      }
       """
 
       conn = post(conn, "/api", query)
 
       response = json_response(conn, 200)
-      category_stats = response["data"]["expensesByCategory"]["edges"]
+      category_stats = response["data"]["categoryStats"]
 
       assert %{
-               "node" => %{
-                 "category" => "RENT",
-                 "totalSpent" => 100,
-                 "transactionCount" => 1
-               }
-             } in category_stats
-
-      assert %{
-               "node" => %{
-                 "category" => "GROCERIES",
-                 "totalSpent" => 400,
-                 "transactionCount" => 2
-               }
-             } in category_stats
-
-      assert %{
-               "node" => %{
-                 "category" => "EDUCATION",
-                 "totalSpent" => 600,
-                 "transactionCount" => 3
-               }
+               "category" => "EDUCATION",
+               "totalSpent" => 600,
+               "transactionCount" => 3
              } in category_stats
     end
 
@@ -111,13 +89,9 @@ defmodule FinAnalyzerWeb.AnalysisTest do
 
       query = """
         query {
-        	averageMonthlySpending(first: 3) {
-        		edges {
-        			node {
-        				average
-        				month
-        			}
-        		}
+        	averageMonthlySpending {
+        		average
+        		month
         	}
         }
       """
@@ -127,13 +101,11 @@ defmodule FinAnalyzerWeb.AnalysisTest do
       assert json_response(conn, 200) ==
                %{
                  "data" => %{
-                   "averageMonthlySpending" => %{
-                     "edges" => [
-                       %{"node" => %{"average" => 100.0, "month" => "2022-1"}},
-                       %{"node" => %{"average" => 101.5, "month" => "2023-1"}},
-                       %{"node" => %{"average" => 300.0, "month" => "2023-3"}}
-                     ]
-                   }
+                   "averageMonthlySpending" => [
+                     %{"average" => 100.0, "month" => "2022-1"},
+                     %{"average" => 101.5, "month" => "2023-1"},
+                     %{"average" => 300.0, "month" => "2023-3"}
+                   ]
                  }
                }
     end

@@ -22,9 +22,9 @@ defmodule FinAnalyzer.TransactionsTest do
       assert Transactions.list_transactions(user) == [transaction]
     end
 
-    test "get_transaction!/1 returns the transaction with given id", %{user: user} do
+    test "get_transaction/1 returns the transaction with given id", %{user: user} do
       transaction = transaction_fixture(user)
-      assert Transactions.get_transaction!(transaction.id) == transaction
+      assert Transactions.get_transaction(transaction.id) == transaction
     end
 
     test "create_transaction/1 with valid data creates a transaction", %{user: user} do
@@ -72,13 +72,13 @@ defmodule FinAnalyzer.TransactionsTest do
       assert {:error, %Ecto.Changeset{}} =
                Transactions.update_transaction(transaction, @invalid_attrs)
 
-      assert transaction == Transactions.get_transaction!(transaction.id)
+      assert transaction == Transactions.get_transaction(transaction.id)
     end
 
     test "delete_transaction/1 deletes the transaction", %{user: user} do
       transaction = transaction_fixture(user)
       assert {:ok, %Transaction{}} = Transactions.delete_transaction(transaction)
-      assert_raise Ecto.NoResultsError, fn -> Transactions.get_transaction!(transaction.id) end
+      assert nil == Transactions.get_transaction(transaction.id)
     end
 
     test "change_transaction/1 returns a transaction changeset", %{user: user} do
