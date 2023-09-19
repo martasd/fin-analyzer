@@ -148,43 +148,25 @@ query {
 
 * We can display average amount spent for each month:
 
-
 ```graphql
 query {
-  averageMonthlySpending(first: 3) {
-    edges {
-      node {
-        average
-        month
-      }
-    }
+  averageMonthlySpending {
+    month
+    average
   }
 }
 ```
 
-* Finally, we can see some statistics for each category:
+* Finally, we can see some statistics for a category:
 
 ```graphql
 query {
-  expensesByCategory(first: 10) {
-    edges {
-      node {
-        category
-        transactionCount
-        totalSpent
-        transactions {
-          amount
-        }
-      }
-    }
+  categoryStats(category: ENTERTAINMENT) {
+    category
+    totalSpent
+    transactionCount
   }
 }
-```
-
-If we are interested only in a specific category, we can use a filter like this:
-
-```graphql
-expensesByCategory(first: 3, category: GROCERIES)
 ```
 
 **NOTE:** All GraphQL queries and mutations can be imported into Insomnia client using `insomnia_export.json`
@@ -251,7 +233,8 @@ COUNT, SUM, and AVG. Using these significantly improved the query response
 times.
 
 Below are the response time comparisons of the original implementation in
-Elixir and the new implementation with SQL aggregate functions.
+Elixir and the new implementation with SQL aggregate functions when querying
+a database where the user has 147 965 transactions.
 
 #### Average monthly spending
 
