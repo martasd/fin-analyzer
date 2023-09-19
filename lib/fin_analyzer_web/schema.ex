@@ -54,15 +54,25 @@ defmodule FinAnalyzerWeb.Schema do
     end
 
     @desc "Average amount spent for all months during which at least one transaction has occurred"
-    connection field :average_monthly_spending, node_type: :monthly_average do
+    field :average_monthly_spending, list_of(:monthly_average) do
       arg(:category, :transaction_category)
       resolve(&Resolvers.Analysis.average_monthly_spending/2)
     end
 
-    @desc "Expenses by category along with some category statistics"
-    connection field :expenses_by_category, node_type: :category_expenses do
+    field :average_monthly_spending_sql, list_of(:monthly_average) do
+      arg(:category, :transaction_category)
+      resolve(&Resolvers.Analysis.average_monthly_spending_sql/2)
+    end
+
+    @desc "Transaction statistics for a given category"
+    field :category_stats, list_of(:category_expenses) do
       arg(:category, :transaction_category)
       resolve(&Resolvers.Analysis.expenses_by_category/2)
+    end
+
+    field :category_stats_sql, :category_stats do
+      arg(:category, non_null(:transaction_category))
+      resolve(&Resolvers.Analysis.category_stats/2)
     end
 
     @desc "Largest expenses ordered by amount"

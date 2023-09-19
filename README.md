@@ -207,7 +207,7 @@ To execute only HTTP tests for GraphQL API:
 mix test test/fin_analyzer_web/schema
 ```
 
-## Design
+## Design Decisions
 
 The task assignment clearly described the functionality to be implemented. The queries and mutations followed naturally
 from the description. One design decision was to sort retrieved transactions by date and amount in descending order,
@@ -241,11 +241,41 @@ valid data get imported while rows with invalid data are reported in errors as i
   }
 }
 ```
+### Analysis: Elixir vs. SQL
 
-## Challenges
+Initially, I computed the average monthly spending and category breakdown
+statistics with Elixir using the list of all user transactions returned from the
+database. It turns out that this approach is inefficient compared to computing
+these directly with SQL (or Ecto where supported) using SQL aggregate functions
+COUNT, SUM, and AVG. Using these significantly improved the query response
+times.
 
-I found that the biggest challenge was to figure out the user authentication for the GraphQL API. Authentication does
-come out of the box with Phoenix with `mix phx.gen.auth`. It took some time, however, to figure out how to properly hook into it
-to fetch the current user for Absinthe API calls. As I focused solely on GraphQL API and have not implemented any UI, I did
-not make use of user sessions provided. I opted for the most straightforward solution by relying on `UserToken` for
-authenticating GraphQL requests.
+Below are the response time comparisons of the original implementation in
+Elixir and the new implementation with SQL aggregate functions.
+
+#### Average monthly spending
+
+| Query                      | averageMonthly | averageMonthlySql |
+| -------------------------- | -------------- | ----------------- |
+|                            | 2950           | 592               |
+|                            | 2790           | 105               |
+|                            | 2810           | 108               |
+|                            | 2880           | 102               |
+|                            | 2440           | 94                |
+| Average response time (ms) | 2774           | 200.2             |
+
+For average monthly spending statistics, the SQL query is **13.8 times faster**.
+
+
+#### Category breakdown
+
+| Query                      | categoryStats | categoryStatsSql |
+| -------------------------- | ------------- | ---------------- |
+|                            | 1290          | 485              |
+|                            | 939           | 95               |
+|                            | 884           | 98               |
+|                            | 728           | 81               |
+|                            | 796           | 85               |
+| Average response time (ms) | 927.4         | 168.8            |
+
+For category breakdown, the SQL query is **5.5 times faster**.
