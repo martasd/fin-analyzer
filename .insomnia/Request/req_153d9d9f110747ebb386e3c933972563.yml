@@ -1,0 +1,31 @@
+_id: req_153d9d9f110747ebb386e3c933972563
+type: Request
+parentId: fld_12ed69cca6564246961284977d7589be
+modified: 1695114837912
+created: 1694412659384
+url: http://localhost:4000/api/
+name: categoryStats
+description: ""
+method: POST
+body:
+  mimeType: application/graphql
+  text: '{"query":"query {\n\tcategoryStats(category: ENTERTAINMENT)
+    {\n\t\tcategory\n\t\ttotalSpent\n\t\ttransactionCount\n\t}\n}"}'
+parameters: []
+headers:
+  - name: Authorization
+    value: Cg_IX6YHqk-yhuoUljMbeufwQYB3jSG8ZZrgkIvOLqE
+    id: pair_8a3190c9d1f3468db50c2d831e0e02d5
+  - id: pair_9e87a3b35989412e8b3a0274fedb977e
+    name: Content-Type
+    value: application/json
+    description: ""
+authentication: {}
+metaSortKey: -1694457243229
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

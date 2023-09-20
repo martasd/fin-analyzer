@@ -1,0 +1,29 @@
+_id: req_ad61ceed102a46428cd0fcc55348d051
+type: Request
+parentId: fld_3c12c399ef3949b7a08ca98f7a6c0a24
+modified: 1695121952054
+created: 1694456848629
+url: http://localhost:4000/api/
+name: logIn
+description: ""
+method: POST
+body:
+  mimeType: application/graphql
+  text: '{"query":"mutation {\n  logIn(email: \"martindluhos2@profiq.com\",
+    password:\"super-secret\") {\n\t\ttoken\n\t\tcontext\n\t\tuser
+    {\n\t\t\tid\n\t\t\temail\n\t\t}\n\t}\n}","variables":{}}'
+parameters: []
+headers:
+  - id: pair_9e87a3b35989412e8b3a0274fedb977e
+    name: Content-Type
+    value: application/json
+    description: ""
+authentication: {}
+metaSortKey: -1694457198136
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

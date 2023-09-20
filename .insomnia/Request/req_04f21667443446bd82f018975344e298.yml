@@ -1,0 +1,28 @@
+_id: req_04f21667443446bd82f018975344e298
+type: Request
+parentId: fld_3c12c399ef3949b7a08ca98f7a6c0a24
+modified: 1694795036956
+created: 1694456905752
+url: http://localhost:4000/api/
+name: registerUser
+description: ""
+method: POST
+body:
+  mimeType: application/graphql
+  text: '{"query":"mutation {\n  registerUser(email: \"martindluhos2@profiq.com\",
+    password:\"super-secret\") {\n    id\n    email\n  }\n}","variables":{}}'
+parameters: []
+headers:
+  - id: pair_9e87a3b35989412e8b3a0274fedb977e
+    name: Content-Type
+    value: application/json
+    description: ""
+authentication: {}
+metaSortKey: -1694457198236
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

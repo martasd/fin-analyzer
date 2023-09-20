@@ -1,0 +1,32 @@
+_id: req_11ccc4e260e341f69bd88cebc39bf2a0
+type: Request
+parentId: fld_dc399de0a32748d7a5de39edbf2ce6e4
+modified: 1694791037011
+created: 1694425044493
+url: http://localhost:4000/api/
+name: categorizeTransaction
+description: ""
+method: POST
+body:
+  mimeType: application/graphql
+  text: '{"query":"mutation($id: ID!, $category: TransactionCategory!)
+    {\n\tcategorizeTransaction(\n\t\tid: $id,\n\t\tcategory: $category\n\t)
+    {\n\t\tid\n\t\tcategory\n\t}\n}\n","variables":{"id":"7beb14bf-b4c9-4e98-b4e5-d7c92667fb0c","category":"SPORTS"}}'
+parameters: []
+headers:
+  - name: Authorization
+    value: Lfkiiw3E0rsSSCkOuV0Jgixya76eQyScmJFb8aNOVwY
+    id: pair_8a3190c9d1f3468db50c2d831e0e02d5
+  - id: pair_9e87a3b35989412e8b3a0274fedb977e
+    name: Content-Type
+    value: application/json
+    description: ""
+authentication: {}
+metaSortKey: -1694457265312
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

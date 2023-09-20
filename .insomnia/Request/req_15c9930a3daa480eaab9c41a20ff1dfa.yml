@@ -1,0 +1,32 @@
+_id: req_15c9930a3daa480eaab9c41a20ff1dfa
+type: Request
+parentId: fld_dc399de0a32748d7a5de39edbf2ce6e4
+modified: 1695113731565
+created: 1694427897093
+url: http://localhost:4000/api/
+name: uploadTransactions
+description: ""
+method: POST
+body:
+  mimeType: application/graphql
+  text: '{"query":"mutation {\n\tuploadTransactions(transactions:
+    \"@data/transactions.csv\") {\n\t\terrors
+    {\n\t\t\trow\n\t\t\tvalidation\n\t\t}\n\t\tresult\n\t}\n}\n","variables":{}}'
+parameters: []
+headers:
+  - name: Authorization
+    value: syrCpAEgdzJXYTZO1Meqp1Bh8mYH89r6rfLIkfJp0Sc
+    id: pair_8a3190c9d1f3468db50c2d831e0e02d5
+  - id: pair_9e87a3b35989412e8b3a0274fedb977e
+    name: Content-Type
+    value: application/json
+    description: ""
+authentication: {}
+metaSortKey: -1694457265412
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

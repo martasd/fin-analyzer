@@ -1,0 +1,31 @@
+_id: req_69d388a86a074a05a54b76927d97202b
+type: Request
+parentId: fld_3c12c399ef3949b7a08ca98f7a6c0a24
+modified: 1694504177402
+created: 1694502847531
+url: http://localhost:4000/api/
+name: logOut
+description: ""
+method: POST
+body:
+  mimeType: application/graphql
+  text: '{"query":"mutation {\n\tlogOut\n}\n","variables":{}}'
+parameters: []
+headers:
+  - id: pair_9e87a3b35989412e8b3a0274fedb977e
+    name: Content-Type
+    value: application/json
+    description: ""
+  - id: pair_29019cfeccba45808eda611de32d91b4
+    name: Authorization
+    value: euSaJsJwGNa8Awova02pkLYB-XUHVVca7D7RRHTrHpw
+    description: ""
+authentication: {}
+metaSortKey: -1694182937135
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global
